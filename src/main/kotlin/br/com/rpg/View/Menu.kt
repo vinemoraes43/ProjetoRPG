@@ -37,7 +37,7 @@ class Menu (
             "1" -> "humano"
             "2" -> "elfo"
             "3" -> "anao"
-            else -> "humano"
+            else -> throw IllegalArgumentException("Classe não existente")
         }
 
         println("\nEscolha a classe:")
@@ -48,7 +48,7 @@ class Menu (
             "1" -> "guerreiro"
             "2" -> "mago"
             "3" -> "ladino"
-            else -> "guerreiro"
+            else -> throw IllegalArgumentException("Classe não existente")
         }
 
         println("\nEscolha o estilo de atributos:")
@@ -71,6 +71,7 @@ class Menu (
 
         println("\n=== Personagem Criado com Sucesso ===")
         println("Nome: ${personagem.nome}")
+        println("Nível: ${personagem.nivel}")
         println("Raça: ${personagem.raca.nome}")
         println("Classe: ${personagem.classe.nome}")
         println("Atributos: ${personagem.atributos}")

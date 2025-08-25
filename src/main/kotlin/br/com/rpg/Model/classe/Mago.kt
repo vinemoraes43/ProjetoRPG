@@ -15,6 +15,6 @@ class Mago : Classe {
         "Ler Magias (Nvl 1+): 1 vez/dia por nível, decifra inscrições mágicas.",
         "Detectar Magias (Nvl 1+): 1 vez/dia por nível, percebe presença de magia até 9m + 3m / nível.\n" +
                 "\n" +
-                "Concentração: 1d8 rodadas → 1d4 (Nvl 6) → 1 rodada (Nvl 10)."
+        "Concentração: 1d8 rodadas → 1d4 (Nvl 6) → 1 rodada (Nvl 10)."
     )
 }
