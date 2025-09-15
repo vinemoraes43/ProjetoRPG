@@ -1,6 +1,7 @@
 package br.com.rpg.View
 
 import br.com.rpg.Controller.PersonagemController
+import br.com.rpg.Model.atributos.*
 
 class Menu (
     private val controller: PersonagemController = PersonagemController()
@@ -15,7 +16,7 @@ class Menu (
 
             when (readln()) {
                 "1" -> criarPersonagem()
-                "2" -> println("Função de carregar ainda não está disponível.")
+                "2" -> println("Save de personagens não está disponível.")
                 "3" -> {
                     println("Saindo do jogo... Até mais!")
                     return
@@ -37,7 +38,7 @@ class Menu (
             "1" -> "humano"
             "2" -> "elfo"
             "3" -> "anao"
-            else -> throw IllegalArgumentException("Classe não existente")
+            else -> throw IllegalArgumentException("Raça não existente")
         }
 
         println("\nEscolha a classe:")
@@ -59,14 +60,26 @@ class Menu (
             "1" -> "classico"
             "2" -> "heroico"
             "3" -> "aventureiro"
-            else -> "classico"
+            else -> throw IllegalArgumentException("Estilo de atributo não existente")
+        }
+
+        val atributosEscolhidos: Map<Atributo, Int> = when (estilo) {
+            "classico" -> {
+                controller.gerarAtributos(estilo)
+            }
+            "heroico", "aventureiro" -> {
+                val valores = controller.rolarValores(estilo).toMutableList()
+                distribuir(valores)
+            }
+            else -> controller.gerarAtributos("classico")
         }
 
         val personagem = controller.criarPesonagem(
             nome = nome,
             estiloAtributo = estilo,
             racaEscolhida = raca,
-            classeEscolhida = classe
+            classeEscolhida = classe,
+            atributosManuais = atributosEscolhidos
         )
 
         println("\n=== Personagem Criado com Sucesso ===")
@@ -76,5 +89,26 @@ class Menu (
         println("Classe: ${personagem.classe.nome}")
         println("Atributos: ${personagem.atributos}")
         println("O salvamento ainda não está por completo.")
+    }
+
+    private fun distribuir(valores: MutableList<Int>): Map<Atributo, Int> {
+        val atributos = mutableMapOf<Atributo, Int>()
+
+        for (atributo in Atributo.values()) {
+            println("\nAtribuindo valor para ${atributo.name}")
+            println("Valores disponíveis: $valores")
+            print("Escolha um valor: ")
+
+            val escolhido = readln().toIntOrNull()
+            if (escolhido != null && valores.contains(escolhido)) {
+                atributos[atributo] = escolhido
+                valores.remove(escolhido)
+            } else {
+                println("Valor inválido, tente novamente!")
+                return distribuir(valores) // reinicia para não travar o jogo
+            }
+        }
+
+        return atributos
     }
 }

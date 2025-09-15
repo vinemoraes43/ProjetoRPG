@@ -26,4 +26,12 @@ class PersonagemService {
 
         return personagem.copy(atributos = novosAtributos)
     }
+
+    fun validarAtributos(atributos: Map<Atributo, Int>) {
+        val faltando = Atributo.values().filterNot { atributos.containsKey(it) }
+        if (faltando.isNotEmpty()) {
+            throw IllegalArgumentException("Faltando atribuir valores para: $faltando")
+        }
+    }
+
 }
