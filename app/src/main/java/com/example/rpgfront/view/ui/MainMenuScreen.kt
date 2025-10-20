@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MainMenuScreen(
     onCreateCharacter: () -> Unit,
+    onLoadGame: () -> Unit,
     onExit: () -> Unit
 ) {
     Column(
@@ -30,6 +31,13 @@ fun MainMenuScreen(
             modifier = Modifier.fillMaxWidth(0.8f)
         ) {
             Text("Criar Personagem")
+        }
+
+        Button(
+            onClick = onLoadGame,
+            modifier = Modifier.fillMaxWidth(0.6f)
+        ) {
+            Text("Carregar Jogo")
         }
 
         Button(

@@ -5,10 +5,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.rpgfront.controller.PersonagemControllerAndroid
+import com.example.rpgfront.data.repository.PersonagemRepository
 import com.example.rpgfront.model.atributos.Atributo
 import com.example.rpgfront.model.personagem.Personagem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun CreateCharacterScreen(
@@ -97,7 +102,11 @@ fun CreateCharacterScreen(
             OutlinedButton(onClick = onBack) {
                 Text("Voltar")
             }
-            Button(onClick = {
+
+            val context = LocalContext.current
+            val repository = remember { PersonagemRepository(context) }
+
+                Button(onClick = {
                 if (atributos.isNotEmpty()) {
                     val personagem = controller.criarPersonagem(
                         nome = nome,
@@ -106,6 +115,11 @@ fun CreateCharacterScreen(
                         classe = classe,
                         atributosManuais = atributos
                     )
+
+                    CoroutineScope(Dispatchers.IO).launch {
+                        repository.salvar(personagem)
+                    }
+                    
                     onCreated(personagem)
                 }
             }) {

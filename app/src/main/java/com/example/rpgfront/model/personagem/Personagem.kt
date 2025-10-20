@@ -11,6 +11,7 @@ data class Personagem(
     val nivel: Int = 1,
     val raca : Raca,
     val classe : Classe,
+    val estiloAtributo: String = "classico",
     val atributos: Map<Atributo, Int>,          // finais (com bônus)
     val atributosBase: Map<Atributo, Int> = atributos // base (sem bônus)
 )
